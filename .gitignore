@@ -1,0 +1,5 @@
+.venv
+/linux
+/cachyos-pkgbuilds
+/cachyos-patches
+__pycache__
