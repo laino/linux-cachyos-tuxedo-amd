@@ -9,13 +9,17 @@ import tempfile
 from pathlib import Path
 
 # Stable linux kernel source
-LINUX_REMOTE = "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git"
-LINUX_BRANCH = "linux-6.18.y"
-LINUX_REF = "v6.18.5"  # tag/branch/commit to pin
+#LINUX_REMOTE = "https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git"
+#LINUX_BRANCH = "linux-6.19.y"
+#LINUX_REF = "v6.19-rc5"  # tag/branch/commit to pin
+LINUX_REMOTE="https://gitlab.freedesktop.org/agd5f/linux.git"
+LINUX_BRANCH="amd-drm-fixes-6.19-2026-01-15"
+LINUX_REF=""
 
-# PKGBUILD knobs — only adjust these two
-PKGVER = "6.18.5"
-KERNEL_SOURCE = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.5.tar.xz"
+# PKGBUILD knobs
+PKGVER = "6.19.0rc5"
+#KERNEL_SOURCE = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.5.tar.xz"
+KERNEL_SOURCE = "https://gitlab.freedesktop.org/agd5f/linux/-/archive/amd-drm-fixes-6.19-2026-01-15/linux-amd-drm-fixes-6.19-2026-01-15.tar.gz"
 
 # Ubuntu linux kernel source - base used by tuxedo branch
 UBUNTU_CODENAME = "noble"
@@ -44,10 +48,10 @@ CACHYOS_PKGBUILDS_REF = "8e4d77a4aeef28c8e93fd9b724d61a84b11b384f"  # tag/branch
 CACHYOS_PATCHES_REMOTE = "https://github.com/CachyOS/kernel-patches.git"
 CACHYOS_PATCHES_BRANCH = "master"
 CACHYOS_PATCHES_REF = "af948449e6e97afbac82dc9887e2b2b95d1a6519"  # tag/branch/commit to pin
-CACHYOS_PATCHES_FOLDER = "6.18"
+CACHYOS_PATCHES_FOLDER = "6.19"
 
 # CachyOS package selection
-CACHYOS_PKG_DIR = "linux-cachyos-bore"  # choose the full bore flavor PKGBUILD/config
+CACHYOS_PKG_DIR = "linux-cachyos-rc" 
 
 ROOT = Path(__file__).resolve().parent.parent
 LINUX_REPO = ROOT / "linux"
@@ -469,8 +473,6 @@ def main():
     checkout(LINUX_CACHYOS_REPO, "origin", CACHYOS_PKGBUILDS_REMOTE, CACHYOS_PKGBUILDS_BRANCH, ref=CACHYOS_PKGBUILDS_REF)
     stage_cachyos_config(LINUX_CACHYOS_REPO / CACHYOS_PKG_DIR / "config", PACKAGE_CONFIG_PATH)
 
-    pkgver = PKGVER
-    srcname = f"linux-{PKGVER}"
 
     if not CACHYOS_PATCHES_REF:
         sys.exit("CACHYOS_PATCHES_REF must be set")
@@ -498,9 +500,10 @@ def main():
     create_patches_tarball(PACKAGE_PATCHES_DIR, patches_tarball)
 
     # Render PKGBUILD using scripts/PKGBUILD template
+    srcname = KERNEL_SOURCE.rsplit("/", 1)[-1].rsplit(".", 2)[0]
     sources = [KERNEL_SOURCE, "config", "patches.tar.gz"]
     sha256sums = ["'SKIP'", "'SKIP'", "'SKIP'"]
-    render_pkgbuild(PKGBUILD_TEMPLATE, PACKAGE_PKGFILE, pkgver, srcname, sources, sha256sums)
+    render_pkgbuild(PKGBUILD_TEMPLATE, PACKAGE_PKGFILE, PKGVER, srcname, sources, sha256sums)
 
     # Summary
     applied_tuxedo = max(0, len(applied) - len(cachyos_patches))

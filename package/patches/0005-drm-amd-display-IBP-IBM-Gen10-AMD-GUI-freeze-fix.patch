@@ -1,4 +1,4 @@
-From b1c8384c5372014e2c2ca5719e6b50ebad09099e Mon Sep 17 00:00:00 2001
+From 348c4e7682fcd810b8bad7cde185640e3088caee Mon Sep 17 00:00:00 2001
 From: Werner Sembach <wse@tuxedocomputers.com>
 Date: Fri, 7 Nov 2025 18:13:51 +0100
 Subject: [PATCH] drm/amd/display: IBP/IBM Gen10 AMD GUI freeze fix

@@ -5,7 +5,7 @@ pkgver={pkgver}
 pkgrel=1
 arch=('x86_64')
 _srcname={srcname}
-pkgdesc="TUXEDO kernel based on CachyOS defaults"
+pkgdesc="Kernel for modern AMD hardware based on CachyOS defaults with AMD drm fixes from agd5f"
 license=('GPL-2.0-only')
 url="https://github.com/laino/tuxedo-cachyos-kernel"
 options=('!strip' '!debug' '!lto')
@@ -20,8 +20,7 @@ sha256sums=(
 
 prepare() {
     # Kernel sources
-    rm -rf "${_srcname}"
-    tar xf "${_srcname}.tar.xz"
+    mv "${_srcname}-" "${_srcname}"
     cd "${_srcname}"
     [ -f ../patches.tar.gz ] && tar xf ../patches.tar.gz -C ..
     for p in ../*.patch; do

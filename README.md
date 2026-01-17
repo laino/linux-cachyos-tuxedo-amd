@@ -2,7 +2,8 @@ Unofficial Linux Cachyos TUXEDO AMD Kernel PKGBUILD
 ====================================================
 
 PKGBUILD for building a custom Linux kernel optimized for modern AMD hardware,
-based on the Cachyos kernel configuration with [TUXEDO Computer's](https://gitlab.com/tuxedocomputers/development/packages/linux) changes applied.
+based on the Cachyos kernel configuration with [TUXEDO Computer's](https://gitlab.com/tuxedocomputers/development/packages/linux) changes applied
+and including AMD drm fixes from [here](https://gitlab.freedesktop.org/agd5f/linux/-/tree/amd-drm-fixes-6.19-2026-01-15?ref_type=tags).
 
 Not all changes from TUXEDO are included, only those that will apply to the current Cachyos kernel version.
 
